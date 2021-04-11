@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 
 
 class CreateNewUser implements CreatesNewUsers
@@ -34,7 +35,7 @@ class CreateNewUser implements CreatesNewUsers
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-        ]);
+            'password' => Crypt::encryptString($input['password']),        
+            ]);
     }
 }

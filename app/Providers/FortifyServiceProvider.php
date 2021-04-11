@@ -39,13 +39,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            $validator = Validator::make(request()->all(), [
-                'g-recaptcha-response' => 'recaptcha',
-            ]);
-            // Verificamos si hay algún error
-            if($validator->fails()) {
-                $errors = $validator->errors();
-            }
+           
             return Limit::perMinute(5)->by($request->email.$request->ip());
         });
 
